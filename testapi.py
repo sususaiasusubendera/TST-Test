@@ -1,15 +1,19 @@
 import json
 from fastapi import FastAPI, HTTPException
-
 with open("data-mahasiswa.json", "r") as read_file:
-	data = json.load(read_file)
+    data = json.load(read_file)
 app = FastAPI()
-@app.get('/data-mahasiswa/{item_NIM}')
+@app.get("/")
+async def root():
+    return {"Page": "Root"}
 
-async def read_data(item_NIM: int):
-	for menu_item in data['menu']:
-		if menu_item['id'] == item_id:
-			return menu_item
-	raise HTTPException(
-		status_code=404, detail=f'Item not found'
-	)
+@app.get('/mahasiswa/{item}')
+async def read_mahasiswa():
+    dictMahasiswa = []
+    for dataMahasiswa in data['data-mahasiswa']:
+        dictMahasiswa.append(dataMahasiswa)
+    return dictMahasiswa
+    
+    raise HTTPException(
+        status_code=404, detail=f'Item not found'
+    )
